@@ -206,6 +206,7 @@ This page will be available at `http://yourdomain.com/people/bob/essay.html`
 
 **Recommended Pages**  
 
+- **test.thml**
 - **index.html**  
   You will always want to define the root index.html page as this will display on your root URL.
 - **404.html**  
