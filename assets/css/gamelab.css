@@ -22,3 +22,11 @@
 	font-size: 12px;
 	color:gray;
 }
+
+.content {
+	font-family:微软雅黑,宋体,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.archive-list ul li {
+	list-style-type : none;
+}
