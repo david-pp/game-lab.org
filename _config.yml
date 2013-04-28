@@ -11,7 +11,7 @@ paginate: 5 # the number of post per page
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : David++
+title : david++
 tagline: I think, therefor i am
 author :
   name : david++
