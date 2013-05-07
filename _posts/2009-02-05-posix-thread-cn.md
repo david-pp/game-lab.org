@@ -387,6 +387,1101 @@ Pthreads 也可以用于串行程序，模拟并行执行。很好例子就是�
 
 ---------------------------------------------------
 
-#### <a id="3.1"></a> 3.1
+### <a id="5"></a> 5. 线程管理（Thread Management） 
+
+
+#### <a id="5.1"></a> 5.1 创建和结束线程 
+
+**函数**：
+
+	pthread_create (thread,attr,start_routine,arg)  
+	pthread_exit (status)  
+	pthread_attr_init (attr)  
+	pthread_attr_destroy (attr)  
+
+**创建线程**:  
+
+最初，main函数包含了一个缺省的线程。其它线程则需要程序员显式地创建。 
+
+pthread_create 创建一个新线程并使之运行起来。该函数可以在程序的任何地方调用。 
+
+pthread_create参数： 
+
+	thread：返回一个不透明的，唯一的新线程标识符。 
+	attr：不透明的线程属性对象。可以指定一个线程属性对象，或者NULL为缺省值。 
+	start_routine：线程将会执行一次的C函数。 
+	arg: 传递给start_routine单个参数，传递时必须转换成指向void的指针类型。没有参数传递时，可设置为NULL。 
+
+一个进程可以创建的线程最大数量取决于系统实现。 
+
+一旦创建，线程就称为peers，可以创建其它线程。线程之间没有指定的结构和依赖关系。 
+ 
+Q：一个线程被创建后，怎么知道操作系统何时调度该线程使之运行？ 
+
+A：除非使用了Pthreads的调度机制，否则线程何时何地被执行取决于操作系统的实现。强壮的程序应该不依赖于线程执行的顺序。
+
+ 
+**线程属性**:
+
+线程被创建时会带有默认的属性。其中的一些属性可以被程序员用线程属性对象来修改。 
+
+pthread_attr_init 和 pthread_attr_destroy用于初始化/销毁先成属性对象。 
+
+其它的一些函数用于查询和设置线程属性对象的指定属性。 
+
+一些属性下面将会讨论。 
+
+**结束终止**:  
+
+结束线程的方法有一下几种： 
+
+* 线程从主线程（main函数的初始线程）返回。 
+* 线程调用了pthread_exit函数。 
+* 其它线程使用 pthread_cancel函数结束线程。 
+* 调用exec或者exit函数，整个进程结束。 
+
+pthread_exit用于显式退出线程。典型地，pthread_exit()函数在线程完成工作时，不在需要时候被调用，退出线程。 
+
+如果main()在其他线程创建前用pthread_exit()退出了，其他线程将会继续执行。否则，他们会随着main的结束而终止。 
+
+程序员可以可选择的指定终止状态，当任何线程连接（join）该线程时，该状态就返回给连接（join）该线程的线程。 
+
+清理：pthread_exit()函数并不会关闭文件，任何在线程中打开的文件将会一直处于打开状态，知道线程结束。 
+
+讨论：对于正常退出，可以免于调用pthread_exit()。当然，除非你想返回一个返回值。然而，在main中，有一个问题，就是当main结束时，其它线程还没有被创建。如果此时没有显式的调用pthread_exit()，当main结束时，进程（和所有线程）都会终止。可以在main中调用pthread_exit()，此时尽管在main中已经没有可执行的代码了，进程和所有线程将保持存活状态，。 
+
+**例子: Pthread 创建和终止**
+
+该例用pthread_create()创建了5个线程。每一个线程都会打印一条“Hello World”的消息，然后调用pthread_exit()终止线程。 
+
+{% highlight cpp %}
+
+#include <pthread.h> 
+#include <stdio.h> 
+#define NUM_THREADS     5 
+ 
+void *PrintHello(void *threadid) 
+{ 
+   int tid; 
+   tid = (int)threadid; 
+   printf("Hello World! It's me, thread #%d!/n", tid); 
+   pthread_exit(NULL); 
+} 
+ 
+int main (int argc, char *argv[]) 
+{ 
+   pthread_t threads[NUM_THREADS]; 
+   int rc, t; 
+   for(t=0; t<NUM_THREADS; t++){ 
+      printf("In main: creating thread %d/n", t); 
+      rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t); 
+      if (rc){ 
+         printf("ERROR; return code from pthread_create() is %d/n", rc); 
+         exit(-1); 
+      } 
+   } 
+   pthread_exit(NULL); 
+} 
+
+{% endhighlight %}
+
+--------------------------------------------
+
+#### <a id="5.2"></a> 5.2 向线程传递参数 
+
+pthread_create()函数允许程序员想线程的start routine传递一个参数。当多个参数需要被传递时，可以通过定义一个结构体包含所有要传的参数，然后用pthread_create()传递一个指向改结构体的指针，来打破传递参数的个数的限制。 
+所有参数都应该传引用传递并转化成（void*）。 
+  
+	Q：怎样安全地向一个新创建的线程传递数据？ 
+	A：确保所传递的数据是线程安全的（不能被其他线程修改）。下面三个例子演示了那个应该和那个不应该。 
+ 
+Example 1 - Thread Argument Passing  
+
+下面的代码片段演示了如何向一个线程传递一个简单的整数。主线程为每一个线程使用一个唯一的数据结构，确保每个线程传递的参数是完整的。 
+
+{% highlight cpp %}
+
+int *taskids[NUM_THREADS]; 
+ 
+for(t=0; t<NUM_THREADS; t++) 
+{ 
+   taskids[t] = (int *) malloc(sizeof(int)); 
+   *taskids[t] = t; 
+   printf("Creating thread %d/n", t); 
+   rc = pthread_create(&threads[t], NULL, PrintHello,  
+        (void *) taskids[t]); 
+   ... 
+} 
+
+{% endhighlight %}
+ 
+Example 2 - Thread Argument Passing  
+
+例子展示了用结构体向线程设置/传递参数。每个线程获得一个唯一的结构体实例。 
+
+{% highlight cpp%}
+
+struct thread_data{ 
+   int  thread_id; 
+   int  sum; 
+   char *message; 
+}; 
+ 
+struct thread_data thread_data_array[NUM_THREADS]; 
+ 
+void *PrintHello(void *threadarg) 
+{ 
+   struct thread_data *my_data; 
+   ... 
+   my_data = (struct thread_data *) threadarg; 
+   taskid = my_data->thread_id; 
+   sum = my_data->sum; 
+   hello_msg = my_data->message; 
+   ... 
+} 
+ 
+int main (int argc, char *argv[]) 
+{ 
+   ... 
+   thread_data_array[t].thread_id = t; 
+   thread_data_array[t].sum = sum; 
+   thread_data_array[t].message = messages[t]; 
+   rc = pthread_create(&threads[t], NULL, PrintHello,  
+        (void *) &thread_data_array[t]); 
+   ... 
+} 
+ 
+{% endhighlight %}
+ 
+Example 3 - Thread Argument Passing (Incorrect)  
+
+例子演示了错误地传递参数。循环会在线程访问传递的参数前改变传递给线程的地址的内容。 
+
+{% highlight cpp %}
+int rc, t; 
+ 
+for(t=0; t<NUM_THREADS; t++)  
+{ 
+   printf("Creating thread %d/n", t); 
+   rc = pthread_create(&threads[t], NULL, PrintHello,  
+        (void *) &t); 
+   ... 
+} 
+ 
+{% endhighlight %}
+
+----------------------------------------------------
+
+#### <a id="5.3"></a> 5.3 连接（Joining）和分离（Detaching）线程 
+
+**函数**:  
+
+	pthread_detach (threadid,status)  
+	pthread_attr_setdetachstate (attr,detachstate)  
+	pthread_attr_getdetachstate (attr,detachstate)  
+	pthread_join (threadid,status)  
+
+**连接**: 
+
+“连接”是一种在线程间完成同步的方法。例如： 
+ 
+pthread_join()函数阻赛调用线程知道threadid所指定的线程终止。 
+
+如果在目标线程中调用pthread_exit()，程序员可以在主线程中获得目标线程的终止状态。 
+
+连接线程只能用pthread_join()连接一次。若多次调用就会发生逻辑错误。 
+
+两种同步方法，互斥量（mutexes）和条件变量（condition variables），稍后讨论。 
+
+可连接（Joinable or Not）?  
+
+当一个线程被创建，它有一个属性定义了它是可连接的（joinable）还是分离的（detached）。只有是可连接的线程才能被连接（joined），若果创建的线程是分离的，则不能连接。 
+
+POSIX标准的最终草案指定了线程必须创建成可连接的。然而，并非所有实现都遵循此约定。 
+
+使用pthread_create()的attr参数可以显式的创建可连接或分离的线程，典型四步如下： 
+
+* 声明一个pthread_attr_t数据类型的线程属性变量 
+* 用pthread_attr_init()初始化改属性变量 
+* 用pthread_attr_setdetachstate()设置可分离状态属性 
+* 完了后，用pthread_attr_destroy()释放属性所占用的库资源 
+
+**分离（Detaching）**：
+
+pthread_detach()可以显式用于分离线程，尽管创建时是可连接的。 
+没
+有与pthread_detach()功能相反的函数 
+
+**建议**：
+
+* 若线程需要连接，考虑创建时显式设置为可连接的。因为并非所有创建线程的实现都是将线程创建为可连接的。 
+* 若事先知道线程从不需要连接，考虑创建线程时将其设置为可分离状态。一些系统资源可能需要释放。 
+
+**例子: Pthread Joining**
+
+Example Code - Pthread Joining  
+
+这个例子演示了用Pthread join函数去等待线程终止。因为有些实现并不是默认创建线程是可连接状态，例子中显式地将其创建为可连接的。
+
+{% highlight cpp %}
+
+#include <pthread.h> 
+#include <stdio.h> 
+#define NUM_THREADS    3 
+ 
+void *BusyWork(void *null) 
+{ 
+   int i; 
+   double result=0.0; 
+   for (i=0; i<1000000; i++) 
+   { 
+     result = result + (double)random(); 
+   } 
+   printf("result = %e/n",result); 
+   pthread_exit((void *) 0); 
+} 
+ 
+int main (int argc, char *argv[]) 
+{ 
+   pthread_t thread[NUM_THREADS]; 
+   pthread_attr_t attr; 
+   int rc, t; 
+   void *status; 
+ 
+   /* Initialize and set thread detached attribute */ 
+   pthread_attr_init(&attr); 
+   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE); 
+ 
+   for(t=0; t<NUM_THREADS; t++) 
+   { 
+      printf("Creating thread %d/n", t); 
+      rc = pthread_create(&thread[t], &attr, BusyWork, NULL);  
+      if (rc) 
+      { 
+         printf("ERROR; return code from pthread_create()  
+                is %d/n", rc); 
+         exit(-1); 
+      } 
+   } 
+ 
+   /* Free attribute and wait for the other threads */ 
+   pthread_attr_destroy(&attr); 
+   for(t=0; t<NUM_THREADS; t++) 
+   { 
+      rc = pthread_join(thread[t], &status); 
+      if (rc) 
+      { 
+         printf("ERROR; return code from pthread_join()  
+                is %d/n", rc); 
+         exit(-1); 
+      } 
+      printf("Completed join with thread %d status= %ld/n",t, (long)status); 
+   } 
+ 
+   pthread_exit(NULL); 
+} 
+ 
+{% endhighlight %}
+
+--------------------------------------------------
+
+#### <a id="5.4"></a> 5.4 栈管理 
+
+**函数**:  
+	
+	pthread_attr_getstacksize (attr, stacksize)  
+	pthread_attr_setstacksize (attr, stacksize)  
+	pthread_attr_getstackaddr (attr, stackaddr)  
+	pthread_attr_setstackaddr (attr, stackaddr)  
+
+**防止栈问题**:
+
+POSIX标准并没有指定线程栈的大小，依赖于实现并随实现变化。 
+
+很容易超出默认的栈大小，常见结果：程序终止或者数据损坏。 
+
+安全和可移植的程序应该不依赖于默认的栈限制，但是取而代之的是用pthread_attr_setstacksize分配足够的栈大小。 
+
+pthread_attr_getstackaddr和pthread_attr_setstackaddr函数可以被程序用于将栈设置在指定的内存区域。 
+
+在LC上的一些实际例子:  
+
+默认栈大小经常变化很大，最大值也变化很大，可能会依赖于每个节点的线程数目。 
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th> Node Architecture</th>
+			<th> #CPUS </th>
+			<th> Memory(GB) </th>
+			<th> Default Size (bytes) </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td> AMD Opteron </td>
+			<td> 8 </td>
+			<td> 16 </td>
+			<td> 2,097,152 </td>
+		</tr>
+		<tr>
+			<td> Intel IA64 </td>
+			<td> 4 </td>
+			<td> 8 </td>
+			<td> 33,554,432 </td>
+		</tr>
+		<tr>
+			<td> Intel IA32 </td>
+			<td> 2 </td>
+			<td> 4 </td>
+			<td> 2,097,152 </td>
+		</tr>
+		<tr>
+			<td> IBM Power5 </td>
+			<td> 8 </td>
+			<td> 32 </td>
+			<td> 196,608</td>
+		</tr>
+		<tr>
+			<td> IBM Power4 </td>
+			<td> 8 </td>
+			<td> 16 </td>
+			<td> 196,608</td>
+		</tr>
+		<tr>
+			<td> IBM Power3 </td>
+			<td> 16 </td>
+			<td> 32 </td>
+			<td> 98,304 </td>
+		</tr>
+	</tbody>
+</table>
+
+
+**例子: 栈管理**
+
+Example Code - Stack Management  
+
+这个例子演示了如何去查询和设定线程栈大小。  
+
+{% highlight cpp %}
+
+#include <pthread.h> 
+#include <stdio.h> 
+#define NTHREADS 4 
+#define N 1000 
+#define MEGEXTRA 1000000 
+  
+pthread_attr_t attr; 
+  
+void *dowork(void *threadid) 
+{ 
+   double A[N][N]; 
+   int i,j,tid; 
+   size_t mystacksize; 
+ 
+   tid = (int)threadid; 
+   pthread_attr_getstacksize (&attr, &mystacksize); 
+   printf("Thread %d: stack size = %li bytes /n", tid, mystacksize); 
+   for (i=0; i<N; i++) 
+     for (j=0; j<N; j++) 
+      A[i][j] = ((i*j)/3.452) + (N-i); 
+   pthread_exit(NULL); 
+} 
+  
+int main(int argc, char *argv[]) 
+{ 
+   pthread_t threads[NTHREADS]; 
+   size_t stacksize; 
+   int rc, t; 
+  
+   pthread_attr_init(&attr); 
+   pthread_attr_getstacksize (&attr, &stacksize); 
+   printf("Default stack size = %li/n", stacksize); 
+   stacksize = sizeof(double)*N*N+MEGEXTRA; 
+   printf("Amount of stack needed per thread = %li/n",stacksize); 
+   pthread_attr_setstacksize (&attr, stacksize); 
+   printf("Creating threads with stack size = %li bytes/n",stacksize); 
+   for(t=0; t<NTHREADS; t++){ 
+      rc = pthread_create(&threads[t], &attr, dowork, (void *)t); 
+      if (rc){ 
+         printf("ERROR; return code from pthread_create() is %d/n", rc); 
+         exit(-1); 
+      } 
+   } 
+   printf("Created %d threads./n", t); 
+   pthread_exit(NULL); 
+} 
+
+{% endhighlight %}
+
+--------------------------------------------------
+
+#### <a id="5.5"></a> 5.5 其他各种函数
+
+	pthread_self ()  
+	pthread_equal (thread1,thread2)  
+
+pthread_self返回调用该函数的线程的唯一，系统分配的线程ID。 
+
+pthread_equal比较两个线程ID,若不同返回0，否则返回非0值。 
+
+注意这两个函数中的线程ID对象是不透明的，不是轻易能检查的。因为线程ID是不透明的对象，所以C语言的==操作符不能用于比较两个线程ID。 
+
+	pthread_once (once_control, init_routine)  
+
+pthread_once 在一个进程中仅执行一次init_routine。任何线程第一次调用该函数会执行给定的init_routine，不带参数，任何后续调用都没有效果。 
+
+init_routine函数一般是初始化的程序 
+
+once_control参数是一个同步结构体，需要在调用pthread_once前初始化。例如： 
+
+	pthread_once_t once_control = PTHREAD_ONCE_INIT;  
+ 
+
+---------------------------------------------------- 
+
+### <a id="6"></a> 6. 互斥量（Mutex Variables）
+
+
+#### <a id="6.1"></a> 6.1 概述 
+
+互斥量（Mutex）是“mutual exclusion”的缩写。互斥量是实现线程同步，和保护同时写共享数据的主要方法 
+
+互斥量对共享数据的保护就像一把锁。在Pthreads中，任何时候仅有一个线程可以锁定互斥量，因此，当多个线程尝试去锁定该互斥量时仅有一个会成功。直到锁定互斥量的线程解锁互斥量后，其他线程才可以去锁定互斥量。线程必须轮着访问受保护数据。 
+
+互斥量可以防止“竞争”条件。下面的例子是一个银行事务处理时发生了竞争条件：
+
+<table class="table talbe.stripped">
+	<thead>
+		<tr>
+			<th> Thread 1 </th>
+			<th> Thread 2 </th>
+			<th> Balance </th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Read balance: $1000 </td>
+			<td></td>
+			<td>$1000</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>Read balance: $1000 </td>
+			<td>$1000</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>Deposit $200 </td>
+			<td>$1000</td>
+		</tr>
+		<tr>
+			<td>Deposit $200</td>
+			<td></td>
+			<td>$1000</td>
+		</tr>
+		<tr>
+			<td>Update balance $1000+$200 </td>
+			<td></td>
+			<td>$1200</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>Update balance $1000+$200 </td>
+			<td>$1200</td>
+		</tr>
+	</tbody>
+</table>
+
+上面的例子，当一个线程使用共享数据资源时，应该用一个互斥量去锁定“Balance”。 
+
+一个拥有互斥量的线程经常用于更新全局变量。确保了多个线程更新同样的变量以安全的方式运行，最终的结果和一个线程处理的结果是相同的。这个更新的变量属于一个“临界区（critical section）”。 
+
+使用互斥量的典型顺序如下： 
+
+* 创建和初始一个互斥量 
+* 多个线程尝试去锁定该互斥量 
+* 仅有一个线程可以成功锁定改互斥量 
+* 锁定成功的线程做一些处理 
+* 线程解锁该互斥量 
+* 另外一个线程获得互斥量，重复上述过程 
+* 最后销毁互斥量 
+
+当多个线程竞争同一个互斥量时，失败的线程会阻塞在lock调用处。可以用“trylock”替换“lock”，则失败时不会阻塞。 
+
+当保护共享数据时，程序员有责任去确认是否需要使用互斥量。如，若四个线程会更新同样的数据，但仅有一个线程用了互斥量，则数据可能会损坏。 
+
+-------------------------------------------------
+
+#### <a id="6.2"></a> 6.2 创建和销毁互斥量 
+
+**函数**：
+
+	pthread_mutex_init (mutex,attr)  
+	pthread_mutex_destroy (mutex)  
+	pthread_mutexattr_init (attr)  
+	pthread_mutexattr_destroy (attr)  
+
+**用法**：
+
+互斥量必须用类型pthread_mutex_t类型声明，在使用前必须初始化，这里有两种方法可以初始化互斥量： 
+
+声明时静态地，如：
+	pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER;  
+
+动态地用pthread_mutex_init()函数，这种方法允许设定互斥量的属性对象attr。 
+
+互斥量初始化后是解锁的。 
+
+attr对象用于设置互斥量对象的属性，使用时必须声明为pthread_mutextattr_t类型，默认值可以是NULL。Pthreads标准定义了三种可选的互斥量属性： 
+ 
+* 协议（Protocol）： 指定了协议用于阻止互斥量的优先级改变 
+* 优先级上限（Prioceiling）：指定互斥量的优先级上限 
+* 进程共享（Process-shared）：指定进程共享互斥量 
+
+注意所有实现都提供了这三个可先的互斥量属性。 
+
+pthread_mutexattr_init()和pthread_mutexattr_destroy()函数分别用于创建和销毁互斥量属性对象。 
+
+pthread_mutex_destroy()应该用于释放不需要再使用的互斥量对象。 
+
+-------------------------------------
+
+#### <a id="6.3"></a> 6.3 锁定和解锁互斥量 
+
+**函数**：  
+
+	pthread_mutex_lock (mutex)  
+	pthread_mutex_trylock (mutex)  
+	pthread_mutex_unlock (mutex)  
+
+**用法**：
+
+线程用pthread_mutex_lock()函数去锁定指定的mutex变量，若该mutex已经被另外一个线程锁定了，该调用将会阻塞线程直到mutex被解锁。 
+
+pthread_mutex_trylock() will attempt to lock a mutex. However, if the mutex is already locked, the routine will return immediately with a "busy" error code. This routine may be useful in  
+
+pthread_mutex_trylock()
+
+尝试着去锁定一个互斥量，然而，若互斥量已被锁定，程序会立刻返回并返回一个忙错误值。该函数在优先级改变情况下阻止死锁是非常有用的。 
+
+线程可以用pthread_mutex_unlock()解锁自己占用的互斥量。在一个线程完成对保护数据的使用，而其它线程要获得互斥量在保护数据上工作时，可以调用该函数。若有一下情形则会发生错误： 
+
+* 互斥量已经被解锁 
+* 互斥量被另一个线程占用 
+
+互斥量并没有多么“神奇”的，实际上，它们就是参与的线程的“君子约定”。写代码时要确信正确地锁定，解锁互斥量。下面演示了一种逻辑错误： 
+
+	·                    Thread 1     Thread 2     Thread 3 
+	·                    Lock         Lock          
+	·                    A = 2        A = A+1      A = A*B 
+	·                    Unlock       Unlock     
+ 
+Q：有多个线程等待同一个锁定的互斥量，当互斥量被解锁后，那个线程会第一个锁定互斥量？ 
+
+A：除非线程使用了优先级调度机制，否则，线程会被系统调度器去分配，那个线程会第一个锁定互斥量是随机的。 
+
+**例子：使用互斥量**
+
+Example Code - Using Mutexes  
+
+例程演示了线程使用互斥量处理一个点积（dot product）计算。主数据通过一个可全局访问的数据结构被所有线程使用，每个线程处理数据的不同部分，主线程等待其他线程完成计算并输出结果。 
+
+{% highlight cpp %}
+
+#include <pthread.h> 
+#include <stdio.h> 
+#include <malloc.h> 
+ 
+/*    
+The following structure contains the necessary information   
+to allow the function "dotprod" to access its input data and  
+place its output into the structure.   
+*/ 
+ 
+typedef struct  
+ { 
+   double      *a; 
+   double      *b; 
+   double     sum;  
+   int     veclen;  
+ } DOTDATA; 
+ 
+/* Define globally accessible variables and a mutex */ 
+ 
+#define NUMTHRDS 4 
+#define VECLEN 100 
+   DOTDATA dotstr;  
+   pthread_t callThd[NUMTHRDS]; 
+   pthread_mutex_t mutexsum; 
+ 
+/* 
+The function dotprod is activated when the thread is created. 
+All input to this routine is obtained from a structure  
+of type DOTDATA and all output from this function is written into 
+this structure. The benefit of this approach is apparent for the  
+multi-threaded program: when a thread is created we pass a single 
+argument to the activated function - typically this argument 
+is a thread number. All  the other information required by the  
+function is accessed from the globally accessible structure.  
+*/ 
+ 
+void *dotprod(void *arg) 
+{ 
+ 
+   /* Define and use local variables for convenience */ 
+ 
+   int i, start, end, offset, len ; 
+   double mysum, *x, *y; 
+   offset = (int)arg; 
+      
+   len = dotstr.veclen; 
+   start = offset*len; 
+   end   = start + len; 
+   x = dotstr.a; 
+   y = dotstr.b; 
+ 
+   /* 
+   Perform the dot product and assign result 
+   to the appropriate variable in the structure.  
+   */ 
+ 
+   mysum = 0; 
+   for (i=start; i<end ; i++)  
+    { 
+      mysum += (x[i] * y[i]); 
+    } 
+ 
+   /* 
+   Lock a mutex prior to updating the value in the shared 
+   structure, and unlock it upon updating. 
+   */ 
+   pthread_mutex_lock (&mutexsum); 
+   dotstr.sum += mysum; 
+   pthread_mutex_unlock (&mutexsum); 
+ 
+   pthread_exit((void*) 0); 
+} 
+ 
+/*  
+The main program creates threads which do all the work and then  
+print out result upon completion. Before creating the threads, 
+the input data is created. Since all threads update a shared structure,  
+we need a mutex for mutual exclusion. The main thread needs to wait for 
+all threads to complete, it waits for each one of the threads. We specify 
+a thread attribute value that allow the main thread to join with the 
+threads it creates. Note also that we free up handles when they are 
+no longer needed. 
+*/ 
+ 
+int main (int argc, char *argv[]) 
+{ 
+   int i; 
+   double *a, *b; 
+   void *status; 
+   pthread_attr_t attr; 
+ 
+   /* Assign storage and initialize values */ 
+   a = (double*) malloc (NUMTHRDS*VECLEN*sizeof(double)); 
+   b = (double*) malloc (NUMTHRDS*VECLEN*sizeof(double)); 
+   
+   for (i=0; i<VECLEN*NUMTHRDS; i++) 
+    { 
+     a[i]=1.0; 
+     b[i]=a[i]; 
+    } 
+ 
+   dotstr.veclen = VECLEN;  
+   dotstr.a = a;  
+   dotstr.b = b;  
+   dotstr.sum=0; 
+ 
+   pthread_mutex_init(&mutexsum, NULL); 
+          
+   /* Create threads to perform the dotproduct  */ 
+   pthread_attr_init(&attr); 
+   pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE); 
+ 
+        for(i=0; i<NUMTHRDS; i++) 
+        { 
+        /*  
+        Each thread works on a different set of data. 
+        The offset is specified by 'i'. The size of 
+        the data for each thread is indicated by VECLEN. 
+        */ 
+        pthread_create( &callThd[i], &attr, dotprod, (void *)i); 
+        } 
+ 
+        pthread_attr_destroy(&attr); 
+ 
+        /* Wait on the other threads */ 
+        for(i=0; i<NUMTHRDS; i++) 
+        { 
+          pthread_join( callThd[i], &status); 
+        } 
+ 
+   /* After joining, print out the results and cleanup */ 
+   printf ("Sum =  %f /n", dotstr.sum); 
+   free (a); 
+   free (b); 
+   pthread_mutex_destroy(&mutexsum); 
+   pthread_exit(NULL); 
+}    
+
+{% endhighlight %}
+
+----------------------------------------------
+
+### <a id="7"></a> 7. 条件变量（Condition Variables）
+
+#### <a id="7.1"></a> 7.1 概述 
+
+条件变量提供了另一种同步的方式。互斥量通过控制对数据的访问实现了同步，而条件变量允许根据实际的数据值来实现同步。 
+
+没有条件变量，程序员就必须使用线程去轮询（可能在临界区），查看条件是否满足。这样比较消耗资源，因为线程连续繁忙工作。条件变量是一种可以实现这种轮询的方式。 
+
+条件变量往往和互斥一起使用 
+
+使用条件变量的代表性顺序如下： 
+
+	主线程（Main Thread）  
+	o                                声明和初始化需要同步的全局数据/变量（如“count”） 
+	o                                生命和初始化一个条件变量对象 
+	o                                声明和初始化一个相关的互斥量 
+	o                                创建工作线程A和B 
+
+	Thread A  
+	o                                工作，一直到一定的条件满足（如“count”等于一个指定的值） 
+	o                                锁定相关互斥量并检查全局变量的值 
+	o                                调用pthread_cond_wait()阻塞等待Thread-B的信号。注意pthread_cond_wait()能够自动地并且原子地解锁相关的互斥量，以至于它可以被Thread-B使用。 
+	o                                当收到信号，唤醒线程，互斥量被自动，原子地锁定。 
+	o                                显式解锁互斥量 
+	o                                继续 
+	Thread B  
+	o                                工作 
+	o                                锁定相关互斥量 
+	o                                改变Thread-A所等待的全局变量 
+	o                                检查全局变量的值，若达到需要的条件，像Thread-A发信号。 
+	o                                解锁互斥量 
+	o                                继续 
+
+	Main Thread  
+	Join / Continue  
+
+----------------------------------------------
+
+#### <a id="7.2"></a> 7.2 创建和销毁条件变量 
+
+**Routines**:  
+
+	pthread_cond_init (condition,attr)  
+	pthread_cond_destroy (condition)  
+	pthread_condattr_init (attr)  
+	pthread_condattr_destroy (attr)  
+
+**Usage**:  
+
+条件变量必须声明为pthread_cond_t类型，必须在使用前初始化。有两种方式可以初始条件变量： 
+
+声明时静态地。如：
+	
+	pthread_cond_t myconvar = PTHREAD_COND_INITIALIZER;  
+
+用pthread_cond_init()函数动态地。创建的条件变量ID通过condition参数返回给调用线程。该方式允许设置条件变量对象的属性，attr。 
+ 
+可选的attr对象用于设定条件变量的属性。仅有一个属性被定义：线程共享（process-shared），可以使条件变量被其它进程中的线程看到。若要使用属性对象，必须定义为pthread_condattr_t类型（可以指定为NULL设为默认）。 
+
+注意所有实现都提供了线程共享属性。 
+
+pthread_condattr_init()和pthread_condattr_destroy()用于创建和销毁条件变量属性对象。 
+
+条件变量不需要再使用时，应用pthread_cond_destroy()释放条件变量。 
+
+---------------------------------------------
+
+#### <a id="7.3"></a> 7.3 在条件变量上等待（Waiting）和发送信号（Signaling） 
+
+**函数**：
+
+	pthread_cond_wait (condition,mutex)  
+	pthread_cond_signal (condition)  
+	pthread_cond_broadcast (condition)  
+
+**用法**：
+
+pthread_cond_wait()阻塞调用线程直到指定的条件受信（signaled）。该函数应该在互斥量锁定时调用，当在等待时会自动解锁互斥量。在信号被发送，线程被激活后，互斥量会自动被锁定，当线程结束时，由程序员负责解锁互斥量。 
+
+pthread_cond_signal()函数用于向其他等待在条件变量上的线程发送信号（激活其它线程）。应该在互斥量被锁定后调用。 
+
+若不止一个线程阻塞在条件变量上，则应用pthread_cond_broadcast()向其它所以线程发生信号。 
+
+在调用pthread_cond_wait()前调用pthread_cond_signal()会发生逻辑错误。 
+ 
+使用这些函数时适当的锁定和解锁相关的互斥量是非常重要的。如： 
+
+* 调用pthread_cond_wait()前锁定互斥量失败可能导致线程不会阻塞。 
+* 调用pthread_cond_signal()后解锁互斥量失败可能会不允许相应的pthread_cond_wait()函数结束（保存阻塞）。 
+
+**例子：使用条件变量 **
+
+Example Code - Using Condition Variables  
+
+例子演示了使用Pthreads条件变量的几个函数。主程序创建了三个线程，两个线程工作，根系“count”变量。第三个线程等待count变量值达到指定的值。 
+
+{% highlight cpp %}
+
+#include <pthread.h> 
+#include <stdio.h> 
+ 
+#define NUM_THREADS  3 
+#define TCOUNT 10 
+#define COUNT_LIMIT 12 
+ 
+int     count = 0; 
+int     thread_ids[3] = {0,1,2}; 
+pthread_mutex_t count_mutex; 
+pthread_cond_t count_threshold_cv; 
+ 
+void *inc_count(void *idp)  
+{ 
+  int j,i; 
+  double result=0.0; 
+  int *my_id = idp; 
+ 
+  for (i=0; i<TCOUNT; i++) { 
+    pthread_mutex_lock(&count_mutex); 
+    count++; 
+ 
+    /*  
+    Check the value of count and signal waiting thread when condition is 
+    reached.  Note that this occurs while mutex is locked.  
+    */ 
+    if (count == COUNT_LIMIT) { 
+      pthread_cond_signal(&count_threshold_cv); 
+      printf("inc_count(): thread %d, count = %d  Threshold reached./n",  
+             *my_id, count); 
+      } 
+    printf("inc_count(): thread %d, count = %d, unlocking mutex/n",  
+           *my_id, count); 
+    pthread_mutex_unlock(&count_mutex); 
+ 
+    /* Do some work so threads can alternate on mutex lock */ 
+    for (j=0; j<1000; j++) 
+      result = result + (double)random(); 
+    } 
+  pthread_exit(NULL); 
+} 
+ 
+void *watch_count(void *idp)  
+{ 
+  int *my_id = idp; 
+ 
+  printf("Starting watch_count(): thread %d/n", *my_id); 
+ 
+  /* 
+  Lock mutex and wait for signal.  Note that the pthread_cond_wait  
+  routine will automatically and atomically unlock mutex while it waits.  
+  Also, note that if COUNT_LIMIT is reached before this routine is run by 
+  the waiting thread, the loop will be skipped to prevent pthread_cond_wait 
+  from never returning.  
+  */ 
+  pthread_mutex_lock(&count_mutex); 
+  if (count<COUNT_LIMIT) { 
+    pthread_cond_wait(&count_threshold_cv, &count_mutex); 
+    printf("watch_count(): thread %d Condition signal  
+           received./n", *my_id); 
+    } 
+  pthread_mutex_unlock(&count_mutex); 
+  pthread_exit(NULL); 
+} 
+ 
+int main (int argc, char *argv[]) 
+{ 
+  int i, rc; 
+  pthread_t threads[3]; 
+  pthread_attr_t attr; 
+ 
+  /* Initialize mutex and condition variable objects */ 
+  pthread_mutex_init(&count_mutex, NULL); 
+  pthread_cond_init (&count_threshold_cv, NULL); 
+ 
+  /* For portability, explicitly create threads in a joinable state */ 
+  pthread_attr_init(&attr); 
+  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE); 
+  pthread_create(&threads[0], &attr, inc_count, (void *)&thread_ids[0]); 
+  pthread_create(&threads[1], &attr, inc_count, (void *)&thread_ids[1]); 
+  pthread_create(&threads[2], &attr, watch_count, (void *)&thread_ids[2]); 
+ 
+  /* Wait for all threads to complete */ 
+  for (i=0; i<NUM_THREADS; i++) { 
+    pthread_join(threads[i], NULL); 
+  } 
+  printf ("Main(): Waited on %d  threads. Done./n", NUM_THREADS); 
+ 
+  /* Clean up and exit */ 
+  pthread_attr_destroy(&attr); 
+  pthread_mutex_destroy(&count_mutex); 
+  pthread_cond_destroy(&count_threshold_cv); 
+  pthread_exit(NULL); 
+ 
+} 
+
+{% endhighlight %}
+
+----------------------------------------
+
+### <a id="8"></a> 8. 没有覆盖的主题 
+ 
+Pthread API的几个特性在该教程中并没有包含。把它们列在下面： 
+
+* 线程调度 
+** 线程如何调度的实现往往是不同的，在大多数情况下，默认的机制是可以胜任的。 
+** Pthreads　API提供了显式设定线程调度策略和优先级的函数，它们可以重载默认机制。 
+* API不需要实现去支持这些特性 
+* Keys：线程数据（TSD） 
+* 互斥量的Protocol属性和优先级管理 
+* 跨进程的条件变量共享 
+* 取消线程（Thread Cancellation ） 
+* 多线程和信号（Threads and Signals）  
+
+
+------------------------------------------
+
+### <a id="9"></a> 9. Pthread 库API参考 
+ 
+**Pthread Functions**:
+
+* Thread Management  
+
+	pthread_create   
+	pthread_exit   
+	pthread_join   
+	pthread_once   
+	pthread_kill   
+	pthread_self   
+	pthread_equal   
+	pthread_yield   
+	pthread_detach   
+
+* Thread-Specific Data 
+
+	pthread_key_create  
+	pthread_key_delete 
+	pthread_getspecific  
+	pthread_setspecific 
+
+* Thread Cancellation 
+** pthread_cancel 
+** pthread_cleanup_pop 
+** pthread_cleanup_push 
+** pthread_setcancelstate 
+** pthread_getcancelstate  
+** pthread_testcancel 
+
+* Thread Scheduling 
+** pthread_getschedparam 
+** pthread_setschedparam 
+
+* Signals 
+** pthread_sigmask 
+
+**Pthread Attribute Functions**:
+
+* Basic Management 
+** pthread_attr_init 
+** pthread_attr_destroy 
+
+* Detachable or Joinable 
+** pthread_attr_setdetachstate 
+** pthread_attr_getdetachstate 
+
+* Specifying Stack Information 
+** pthread_attr_getstackaddr 
+** pthread_attr_getstacksize 
+** pthread_attr_setstackaddr 
+** pthread_attr_setstacksize 
+
+* Thread Scheduling Attributes 
+** pthread_attr_getschedparam 
+** pthread_attr_setschedparam 
+** pthread_attr_getschedpolicy 
+** pthread_attr_setschedpolicy 
+** pthread_attr_setinheritsched 
+** pthread_attr_getinheritsched 
+** pthread_attr_setscope 
+** pthread_attr_getscope 
+
+**Mutex Functions**:
+
+* Mutex Management 
+** pthread_mutex_init 
+** pthread_mutex_destroy 
+** pthread_mutex_lock 
+** pthread_mutex_unlock 
+** pthread_mutex_trylock 
+
+* Priority Management 
+** pthread_mutex_setprioceiling 
+** pthread_mutex_getprioceiling 
+
+**Mutex Attribute Functions**:
+
+* Basic Management 
+** pthread_mutexattr_init 
+** pthread_mutexattr_destroy 
+
+* Sharing 
+** pthread_mutexattr_getpshared 
+** pthread_mutexattr_setpshared 
+
+* Protocol Attributes 
+** pthread_mutexattr_getprotocol 
+** pthread_mutexattr_setprotocol 
+
+* Priority Management 
+** pthread_mutexattr_setprioceiling 
+** pthread_mutexattr_getprioceiling 
+
+**Condition Variable Functions**:
+
+* Basic Management 
+** pthread_cond_init 
+** pthread_cond_destroy 
+** pthread_cond_signal 
+** pthread_cond_broadcast 
+** pthread_cond_wait 
+** pthread_cond_timedwait 
+
+**Condition Variable Attribute Functions**:
+
+* Basic Management 
+
+	pthread_condattr_init 
+	pthread_condattr_destroy 
+
+* Sharing 
+
+	pthread_condattr_getpshared 
+	pthread_condattr_setpshared 
+ 
+--------------------------------------------
+
+### <a id="10"></a> 参考资料 
+ 
+* Author: Blaise Barney, Livermore Computing.  
+* "Pthreads Programming". B. Nichols et al. O'Reilly and Associates.  
+* "Threads Primer". B. Lewis and D. Berg. Prentice Hall  
+* "Programming With POSIX Threads". D. Butenhof. Addison Wesley 
+* www.awl.com/cseng/titles/0-201-63392-2  
+* "Programming With Threads". S. Kleiman et al. Prentice Hall  
+
+(完)
+
+
+ 
+
+
+
 
 
