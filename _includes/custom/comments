@@ -1,0 +1,10 @@
+<!-- UY BEGIN -->
+<script type="text/javascript">
+    var uyan_config = {
+        'du':'game-lab.org',
+        'su':'{{page.id}}'
+    };
+</script>
+<div id="uyan_frame"></div>
+<script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1571860" async=""></script>
+<!-- UY END -->

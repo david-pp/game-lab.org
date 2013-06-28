@@ -83,7 +83,7 @@ JB :
   # Set 'provider' to false to turn commenting off globally.
   #
   comments :
-    provider : disqus
+    provider : custom
     disqus :
       short_name : game-lab
     livefyre :
@@ -115,7 +115,7 @@ JB :
   # Set 'provider' to false to turn sharing off globally.
   #
   sharing :
-    provider : false
+    provider : custom
     
   # Settings for all other include helpers can be defined by creating 
   # a hash with key named for the given helper. ex:
