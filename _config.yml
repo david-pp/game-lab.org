@@ -5,7 +5,8 @@ permalink: /posts/:title
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "mathjax"]
 auto: true
 pygments: true
-markdown: rdiscount
+#markdown: rdiscount
+markdown: redcarpet
 paginate: 5 # the number of post per page
 
 safe: true
