@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 标签
+title:
 header: Posts By Tag
 group: navigation
 ---
@@ -9,6 +9,7 @@ group: navigation
 <script src="/assets/js/tagcanvas.min.js" type="text/javascript"></script>
 <script type="text/javascript">
   window.onload = function() {
+
     try {
       TagCanvas.Start('myCanvas','tags',{
         textColour: '#0088cc',
@@ -29,31 +30,16 @@ group: navigation
 </script>
 
 <div id="myCanvasContainer">
-	<center>
-	  <canvas id="myCanvas" width="500" height="500">
-	    <p>Anything in here will be replaced on browsers that support the canvas element</p>
-	  </canvas>
-	</center>
+  <center>
+    <canvas id="myCanvas" width="500" height="500">
+      <p>Anything in here will be replaced on browsers that support the canvas element</p>
+    </canvas>
+  </center>
 </div>
 <div id="tags">
   <ul>
-  	{% for tag in site.tags %} 
-  		<li><a href="#{{ tag[0] }}-ref">{{ tag[0] }}</a></li>
-	{% endfor %}
+    {% for tag in site.tags %} 
+      <li><a href="#{{ tag[0] }}-ref">{{ tag[0] }}</a></li>
+  {% endfor %}
   </ul>
 </div>
-
-<ul class="tag_box inline">
-  {% assign tags_list = site.tags %}  
-  {% include JB/tags_list %}
-</ul>
-
-<hr>
-
-{% for tag in site.tags %} 
-  <h3 id="{{ tag[0] }}-ref">{{ tag[0] }}</h3>
-  <ul>
-    {% assign pages_list = tag[1] %}  
-    {% include JB/pages_list %}
-  </ul>
-{% endfor %}
