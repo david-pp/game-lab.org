@@ -3,13 +3,14 @@
 permalink: /posts/:title 
 
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "mathjax"]
-auto: true
-pygments: true
+highlighter: pygments
 #markdown: rdiscount
 markdown: redcarpet
-paginate: 5 # the number of post per page
+#paginate: 5 # the number of post per page
 
 safe: true
+
+excerpt_separator: <!--more-->
 
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.

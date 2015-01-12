@@ -4,8 +4,13 @@
 
 <div class="row-fluid post-full">
   <div class="span12">
+
     <div class="date">
       <span>{{ page.date | date_to_long_string }}</span>
+    </div>
+
+    <div class="content">
+      {{ content }}
     </div>
 
     <div class="categories" style="padding:10px;">
@@ -26,30 +31,28 @@
     {% endunless %}  
     </div>
 
-    <div class="content">
-      {{ content }}
-    </div>
-
     <div class="sharing" style="padding:10px;">
       {% include JB/sharing %}
     </div>
 
     <br><hr>
-    <div class="pagination">
-      <ul>
-      {% if page.previous %}
-        <li class="prev"><a href="{{ BASE_PATH }}{{ page.previous.url }}" title="{{ page.previous.title }}">&larr; 前一篇</a></li>
-      {% else %}
-        <li class="prev disabled"><a>&larr; 前一篇</a></li>
-      {% endif %}
-        <li><a href="{{ BASE_PATH }}{{ site.JB.archive_path }}">所有文章</a></li>
-      {% if page.next %}
-        <li class="next"><a href="{{ BASE_PATH }}{{ page.next.url }}" title="{{ page.next.title }}">下一篇 &rarr;</a></li>
-      {% else %}
-        <li class="next disabled"><a>下一篇 &rarr;</a>
-      {% endif %}
-      </ul>
-    </div>
+    <center>
+      <div class="pagination">
+        <ul>
+        {% if page.previous %}
+          <li class="prev"><a href="{{ BASE_PATH }}{{ page.previous.url }}" title="{{ page.previous.title }}">&larr; 前一篇</a></li>
+        {% else %}
+          <li class="prev disabled"><a>&larr; 前一篇</a></li>
+        {% endif %}
+          <li><a href="{{ BASE_PATH }}{{ site.JB.archive_path }}">所有文章</a></li>
+        {% if page.next %}
+          <li class="next"><a href="{{ BASE_PATH }}{{ page.next.url }}" title="{{ page.next.title }}">下一篇 &rarr;</a></li>
+        {% else %}
+          <li class="next disabled"><a>下一篇 &rarr;</a>
+        {% endif %}
+        </ul>
+      </div>
+    </center>
     <hr>
   </div>
 </div>
@@ -57,4 +60,9 @@
 <a id="scrollUp" href="#top" title="" style="position: fixed; z-index: 2147483647; display: block;"></a>
 
 {% include JB/comments %}
+
+{% comment %}
 {% include JB/analytics %}
+{% endcomment %}
+
+
