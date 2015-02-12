@@ -1,6 +1,6 @@
 ---
 layout: page
-title : 关于
+title : About
 header : Post Archive
 tagline: "记录工作、学习、生活中的点点滴滴"
 group: navigation
