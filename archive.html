@@ -6,31 +6,5 @@ header : Post Archive
 group: navigation
 ---
 {% include JB/setup %}
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>标题</th>
-      <th>日期</th>
-      <!--<th>摘要</th>-->
-    </tr>
-  </thead>
-  <tbody>
-
-  {% for post in site.posts %}
-    <tr>
-      <td>{{ forloop.index }}</td>
-      <td><a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a> </td>
-      <td>{{ post.date | date_to_string }} </td>
-      <!--<td width="20%">{{ post.excerpt }}</td>-->
-    </tr>
-  {% endfor %}
-
-  </tbody>
-</table>
-
-{% comment %}
 {% assign posts_collate = site.posts %}
 {% include JB/posts_collate %}
-{% endcomment %}

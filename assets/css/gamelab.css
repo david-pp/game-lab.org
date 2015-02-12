@@ -42,3 +42,52 @@ p {
 	line-height: 1.9;    /* 行间距 */
 }
 
+#blog-archives article {
+    padding-left: 4.5em;
+    padding-bottom: .7em;
+    margin-left: 5em;
+    position: relative;
+    color: #AAA;
+}
+
+#blog-archives article time {
+    font-size: .9em;
+    line-height: 1.2em;
+    text-transform: uppercase;
+    position: absolute;
+    text-align: right;
+    left: 0em;
+    top: 1.2em;
+}
+
+#blog-archives article footer {
+    font-size: 1.0em;
+}
+
+
+#blog-archives article p {
+    margin-top: .5em;
+}
+
+#blog-archives h2 {
+    margin-bottom: .3em;
+    display: inline-block;
+    position: relative;
+    top: -1px;
+    float: left;
+    color: #AAA;
+}
+
+#blog-archives h1 {
+    font-size: 1.5em;
+    font-weight: normal;
+    font-family: 'PT Sans', "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, Hiragino Sans GB, Microsoft YaHei, sans-serif;
+}
+
+#blog-archives h1 a {
+    color: #222;
+}
+
+#blog-archives h1 a:hover {
+    text-decoration: none;
+}
