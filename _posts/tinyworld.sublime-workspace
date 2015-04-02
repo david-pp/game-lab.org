@@ -1,0 +1,887 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"k",
+				"kMyCacheCmd_Set"
+			],
+			[
+				"ms",
+				"msglen"
+			],
+			[
+				"si",
+				"size_t"
+			],
+			[
+				"M",
+				"MsgHandler"
+			],
+			[
+				"re",
+				"reply"
+			],
+			[
+				"My",
+				"MyCache"
+			],
+			[
+				"req",
+				"request"
+			],
+			[
+				"so",
+				"socket"
+			],
+			[
+				"r",
+				"request"
+			],
+			[
+				"on",
+				"onRecvMsg"
+			],
+			[
+				"con",
+				"context_"
+			],
+			[
+				"ar",
+				"arg1"
+			],
+			[
+				"Con",
+				"context_t"
+			],
+			[
+				"zm",
+				"zmq"
+			],
+			[
+				"a",
+				"address_"
+			],
+			[
+				"cl",
+				"clients_socket_"
+			],
+			[
+				"s",
+				"socket_t"
+			],
+			[
+				"c",
+				"context_"
+			],
+			[
+				"my",
+				"mycache"
+			],
+			[
+				"Ve",
+				"Vector2"
+			],
+			[
+				"sm",
+				"simplemap"
+			],
+			[
+				"nest",
+				"nests"
+			],
+			[
+				"ne",
+				"nests"
+			],
+			[
+				"ad",
+				"add_nests"
+			],
+			[
+				"de",
+				"deserialize"
+			],
+			[
+				"add",
+				"add_numbers"
+			],
+			[
+				"se",
+				"serialize"
+			],
+			[
+				"n",
+				"numbers"
+			],
+			[
+				"set",
+				"set_id"
+			],
+			[
+				"l",
+				"lprotobuf"
+			],
+			[
+				"ge",
+				"getMsgFreq"
+			],
+			[
+				"m",
+				"msgs_"
+			],
+			[
+				"in",
+				"info"
+			],
+			[
+				"cou",
+				"count"
+			],
+			[
+				"d",
+				"dumpMsgs"
+			],
+			[
+				"p",
+				"privillege"
+			],
+			[
+				"lo",
+				"locals"
+			],
+			[
+				"log",
+				"log"
+			],
+			[
+				"pas",
+				"pass"
+			],
+			[
+				"ti",
+				"title"
+			],
+			[
+				"res",
+				"res"
+			],
+			[
+				"t",
+				"this"
+			],
+			[
+				"pr",
+				"prototype"
+			],
+			[
+				"redi",
+				"redis_cli"
+			],
+			[
+				"user",
+				"user"
+			],
+			[
+				"co",
+				"console"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"fu",
+				"function"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Users/oudaiwei/code/tinyworld/common/mycache.h",
+			"settings":
+			{
+				"buffer_size": 959,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/oudaiwei/code/tinyworld/common/mycache.cpp",
+			"settings":
+			{
+				"buffer_size": 6382,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/oudaiwei/code/tinyworld/test/test.cpp",
+			"settings":
+			{
+				"buffer_size": 221,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/oudaiwei/code/tinyworld/test/Makefile",
+			"settings":
+			{
+				"buffer_size": 1595,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/oudaiwei/code/zguide/examples/C++/mtserver.cpp",
+			"settings":
+			{
+				"buffer_size": 1382,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/User/Node.sublime-build",
+	"command_palette":
+	{
+		"height": 387.0,
+		"selected_items":
+		[
+			[
+				"Pac",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: L",
+				"Package Control: List Packages"
+			],
+			[
+				"Open",
+				"View: Toggle Open Files in Side Bar"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: Inst",
+				"Package Control: Install Package"
+			],
+			[
+				"Me",
+				"View: Toggle Menu"
+			],
+			[
+				"Package Control: iN",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 125.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": true,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/oudaiwei/code/tinyworld/common/message.h",
+		"/Users/oudaiwei/code/tinyworld/proto.client/testpb.proto",
+		"/Users/oudaiwei/code/tinyworld/proto.client/test.cpp",
+		"/Users/oudaiwei/code/tinyworld/proto.client/Makefile",
+		"/Users/oudaiwei/code/tinyworld/common/serializable.h",
+		"/Users/oudaiwei/code/tinyworld/proto.client/testpb.pb.h",
+		"/Users/oudaiwei/code/tinyworld/test/Makefile",
+		"/Users/oudaiwei/code/tinyworld/proto.client/test.proto",
+		"/Users/oudaiwei/code/tinyworld/test/test.proto",
+		"/Users/oudaiwei/code/game-lab.org/_posts/2015-03-22-self-mastery.md",
+		"/Users/oudaiwei/code/game-lab.org/_posts/untitled",
+		"/Users/oudaiwei/code/game-lab.org/assets/css/gamelab.css",
+		"/Users/oudaiwei/code/game-lab.org/tags.html",
+		"/Users/oudaiwei/code/game-lab.org/test.html",
+		"/Users/oudaiwei/code/game-lab.org/pages/about.md",
+		"/Users/oudaiwei/code/game-lab.org/atom.xml",
+		"/Users/oudaiwei/code/game-lab.org/rss.xml",
+		"/Users/oudaiwei/code/game-lab.org/archive.html",
+		"/Users/oudaiwei/code/game-lab.org/_includes/themes/twitter/post.html",
+		"/Users/oudaiwei/code/game-lab.org/_includes/custom/sharing",
+		"/Users/oudaiwei/code/game-lab.org/_posts/2013-07-18-Redis-Intro.md",
+		"/Users/oudaiwei/code/game-lab.org/_posts/2013-07-17-OA-ZeroMQ.md",
+		"/Users/oudaiwei/code/game-lab.org/_config.yml",
+		"/Users/oudaiwei/code/game-lab.org/_posts/2013-09-03-about-threading-lib.md",
+		"/Users/oudaiwei/code/game-lab.org/_includes/themes/twitter/default.html",
+		"/Users/oudaiwei/code/game-lab.org/index.html",
+		"/Users/oudaiwei/netgame/dbserver/operate/DbCreateNewPlayer.cpp",
+		"/Users/oudaiwei/netgame/unite/DataPack.h",
+		"/Users/oudaiwei/netgame/gamegate/operate/GGdefs.h",
+		"/Users/oudaiwei/netgame/dbserver/tools/DbPlayerAdvanceLoadPolicy.cpp",
+		"/Users/oudaiwei/netgame/gamegate/net/GGSession.cpp",
+		"/Users/oudaiwei/netgame/unite/IoSession3.h",
+		"/Users/oudaiwei/netgame/unite/IOSession2.h",
+		"/Users/oudaiwei/netgame/david/msg.cpp",
+		"/Users/oudaiwei/netgame/david/Makefile",
+		"/Users/oudaiwei/netgame/david/MsgStatistics.cpp",
+		"/Users/oudaiwei/netgame/unite/ServerDefs.h",
+		"/Users/oudaiwei/netgame/gamegate/operate/GGdefs.cpp",
+		"/Users/oudaiwei/netgame/unite/ServerDefs.cpp",
+		"/Users/oudaiwei/netgame/dbserver/operate/DBSaveRobot.cpp",
+		"/Users/oudaiwei/netgame/dbserver/data/dbloader/DataLoadPolicy.hpp",
+		"/Users/oudaiwei/netgame/dbserver/data/DBGlobalData.cpp",
+		"/Users/oudaiwei/netgame/dbserver/data/dbloader/DataCachePolicy.hpp",
+		"/Users/oudaiwei/netgame/dbserver/data/dbloader/DataManager.hpp",
+		"/Users/oudaiwei/netgame/dbserver/data/dbloader/DBLoaderFactory.hpp",
+		"/Users/oudaiwei/netgame/dbserver/operate/DBOperateFactory.hpp",
+		"/Users/oudaiwei/netgame/dbserver/ZtServerDb.cpp",
+		"/Users/oudaiwei/netgame/dbserver/ZtServerDb.h",
+		"/Users/oudaiwei/netgame/shared/ZtBaseJob.h",
+		"/Users/oudaiwei/netgame/dbserver/data/dbloader/DBLoader.cpp",
+		"/Users/oudaiwei/netgame/dbserver/data/DBInitData.cpp",
+		"/Users/oudaiwei/netgame/gamegate/operate/TransCareerRecommand.hpp",
+		"/Users/oudaiwei/netgame/unite/IoSession3.cpp",
+		"/Users/oudaiwei/netgame/unite/IOSession2.cpp",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/asio/socket_base.hpp",
+		"/Users/oudaiwei/netgame/shared/BaseSession.h",
+		"/Users/oudaiwei/netgame/shared/ZtHttpWork.cpp",
+		"/Users/oudaiwei/netgame/gameserver/net/GsSession.cpp",
+		"/Users/oudaiwei/netgame/gameserver/net/GsSession.h",
+		"/Users/oudaiwei/netgame/gameserver/ZtServerGsDetrived.cpp",
+		"/Users/oudaiwei/netgame/shared/ZtBaseServer.h",
+		"/Users/oudaiwei/netgame/shared/ZtBaseServer.cpp",
+		"/Users/oudaiwei/netgame/david/QueueApp/app.js",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/function.hpp",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/function/function0.hpp",
+		"/Users/oudaiwei/netgame/loginserver/operate/LSdefs.h",
+		"/Users/oudaiwei/netgame/shared/GlobalTimer.cpp",
+		"/Users/oudaiwei/netgame/shared/ELuna.h",
+		"/Users/oudaiwei/netgame/ServerConfig.h",
+		"/Users/oudaiwei/netgame/sublistserver/operate/SListop_requireAnn.hpp",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/thread/thread_time.hpp",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/thread/detail/thread.hpp",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/thread/pthread/thread_data.hpp",
+		"/Users/oudaiwei/netgame/shared/ZtHttpWork.h",
+		"/Users/oudaiwei/netgame/sublistserver/net/SListSession.cpp",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/date_time/time_clock.hpp",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/config/platform/vxworks.hpp",
+		"/Users/oudaiwei/netgame/shared/TimeStats2.cpp",
+		"/Users/oudaiwei/netgame/shared/TimeStats.cpp",
+		"/Users/oudaiwei/netgame/loginserver/ZtServerLogin.cpp",
+		"/Users/oudaiwei/netgame/gameserver/net/GSRSDealWork.cpp",
+		"/Users/oudaiwei/netgame/shared/TimeStats.h",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/asio/io_service.hpp",
+		"/Users/oudaiwei/code/boost_1_57_0/libs/asio/example/cpp03/http/server4/server.cpp",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/asio/coroutine.hpp",
+		"/Users/oudaiwei/code/boost_1_57_0/INSTALL",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/asio/detail/service_registry.hpp",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/asio/yield.hpp",
+		"/Users/oudaiwei/code/boost_1_57_0/boost/asio/unyield.hpp",
+		"/Users/oudaiwei/netgame/cmake_lib.inc",
+		"/Users/oudaiwei/netgame/shared/BaseServer.h",
+		"/Users/oudaiwei/netgame/gamedata/DBOperation.cpp",
+		"/Users/oudaiwei/netgame/loginserver/operate/LSOperateFactory.hpp",
+		"/Users/oudaiwei/netgame/gamegate/net/GGSession.h",
+		"/Users/oudaiwei/netgame/gamegate/net/GGJob.h",
+		"/Users/oudaiwei/netgame/gamegate/net/ZtGgDealWork.h",
+		"/Users/oudaiwei/netgame/gamegate/operate/Translation.h",
+		"/Users/oudaiwei/netgame/shared/IO_service_pool.h",
+		"/Users/oudaiwei/netgame/superserver/operate/SSop_updategg.hpp",
+		"/Users/oudaiwei/netgame/superserver/operate/SSGlobalData.cpp",
+		"/Users/oudaiwei/netgame/superserver/operate/SSop_registgg.hpp",
+		"/Users/oudaiwei/netgame/superserver/net/CMakeLists.txt",
+		"/Users/oudaiwei/netgame/tlclass/jobqueue.hpp",
+		"/Users/oudaiwei/netgame/unite/StreamReciever.h",
+		"/Users/oudaiwei/netgame/sublistserver/ZtServerSList.h",
+		"/Users/oudaiwei/netgame/sublistserver/net/ZtSListDealWork.h",
+		"/Users/oudaiwei/netgame/sublistserver/operate/SListGlobalData.cpp",
+		"/Users/oudaiwei/netgame/sublistserver/operate/SListop_SSUpdateList.hpp",
+		"/Users/oudaiwei/netgame/sublistserver/operate/SListop_SSUpdateGg.hpp",
+		"/Users/oudaiwei/netgame/sublistserver/operate/SListOperateFactory.hpp",
+		"/Users/oudaiwei/netgame/sublistserver/operate/SListop_getServerlist.hpp",
+		"/Users/oudaiwei/netgame/sublistserver/ZtServerSList.cpp",
+		"/Users/oudaiwei/netgame/sublistserver/net/SListSession.h",
+		"/Users/oudaiwei/netgame/sublistserver/net/ZtSListDealWork.cpp",
+		"/Users/oudaiwei/netgame/unite/StreamReciever.cpp",
+		"/Users/oudaiwei/netgame/unite/StreamWriter.h",
+		"/Users/oudaiwei/netgame/unite/StreamWriter.cpp",
+		"/Users/oudaiwei/netgame/unite/SocketPushMessageStrategy.cpp",
+		"/Users/oudaiwei/netgame/unite/Message.h",
+		"/Users/oudaiwei/netgame/unite/Message.cpp",
+		"/Users/oudaiwei/netgame/sublistserver/net/SListJob.h",
+		"/Users/oudaiwei/netgame/sublistserver/net/SListJob.cpp",
+		"/Users/oudaiwei/netgame/unite/SocketConnector.cpp",
+		"/Users/oudaiwei/netgame/unite/SocketConnector.h",
+		"/Users/oudaiwei/netgame/shared/AsyncClient.cpp",
+		"/Users/oudaiwei/netgame/shared/AsyncClient.h",
+		"/Users/oudaiwei/netgame/shared/ZLogger.h",
+		"/Users/oudaiwei/Library/Application Support/Sublime Text 2/Packages/CTags/CTags.sublime-settings"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"/Users/oudaiwei/netgame/dbserver",
+			"<open folders>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"的语言特性太过丰富，语法和各种技巧，往往需要写上几年代码，好好反思，才能领悟到其中的妙处。",
+			"\"",
+			"Server_List",
+			"req_server_list",
+			"getserver",
+			"main",
+			"	bool isMsgOkay(int msgid);\n	void statMsg(int msgid);",
+			"Uncompress",
+			"loadData",
+			"DBOperateFactory",
+			"new ",
+			"new",
+			"ne'w",
+			"CURLOPT_TIMEOUT",
+			"CUROPT_TIMEOUT",
+			"is_using(true)",
+			"is_using(false)",
+			"RunIOS",
+			"boost::thread",
+			"boost::bind",
+			"Hand",
+			"GameSe",
+			"HandSh",
+			"handle_read_some2",
+			"StartGreedyRecv",
+			"handle_read_some2",
+			"sleep",
+			"RunIoService",
+			"mIoServicePtr",
+			"curl",
+			"work_",
+			"sTimeStats",
+			"ZtSocketStreamRecvHandler",
+			"SetStreamRecvHandler",
+			"mStreamHandler",
+			"serv_list",
+			"get_server_list",
+			"init_serv_list",
+			"http_curl_get",
+			"get_http_list",
+			"init_serv_list",
+			"HandlePackage",
+			"Handle",
+			"mIoServiceWorkPtr",
+			"mJobQueuePtr",
+			"mysql++",
+			"config",
+			"程序",
+			"use",
+			"logger",
+			"');\n",
+			"session",
+			"client",
+			"bootstra",
+			"glyphicons-halflings",
+			"glyphicons",
+			"css",
+			"navbar",
+			"teamworkIcon",
+			"scrollLeft",
+			"centerOnToday",
+			"refreshTaskRow",
+			"updateLinks",
+			"addTask",
+			"teamworkGantDemo",
+			"loadFromLocalStorage",
+			"loadGanttFromServer",
+			"setRoles",
+			"loadGanttFromServer",
+			"loadFromLocalStorage",
+			"loadTasks",
+			"loadProject",
+			"addTask",
+			"TASKROW",
+			"depends",
+			"updateLink",
+			"updateLinks",
+			"beginTransaction",
+			"__currentTransaction",
+			"beginTransaction",
+			"taZone",
+			"localStorage",
+			"loadFromLocalStorage",
+			"loadGanttFromServer",
+			"taskSelector",
+			"loadGanttFromServer",
+			"_decorators",
+			"loadTemplates",
+			"gantEditorTemplates",
+			"GANTBUTTONS",
+			"GANTTBUT",
+			"Event(",
+			"Event",
+			"refreshTasks",
+			"loadI18n",
+			"ganttemplates",
+			"setRoles",
+			"$",
+			"gridify",
+			"TASKSEDITHEAD",
+			"links",
+			"getSuperiors",
+			"incrementDateByWorkingDays",
+			"isHoliday",
+			"computeStart",
+			"isHoliday",
+			"getResource",
+			"Assignment",
+			"computeStart",
+			"__template__",
+			"localStorage",
+			"loadGanttFromServer",
+			"loadI18n",
+			"gantEditorTemplates",
+			"ganttButtonBar",
+			"loadTemplates",
+			"loadGanttFromServer",
+			"ganttemplates",
+			"treetable",
+			"example-advance",
+			"example-basic-expandable",
+			"example-basic"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"redis_cli"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Users/oudaiwei/code/tinyworld/common/mycache.h",
+					"settings":
+					{
+						"buffer_size": 959,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								688,
+								667
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/oudaiwei/code/tinyworld/common/mycache.cpp",
+					"settings":
+					{
+						"buffer_size": 6382,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2948,
+								2948
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3760.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/oudaiwei/code/tinyworld/test/test.cpp",
+					"settings":
+					{
+						"buffer_size": 221,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								221,
+								53
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/oudaiwei/code/tinyworld/test/Makefile",
+					"settings":
+					{
+						"buffer_size": 1595,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1513,
+								1499
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/oudaiwei/code/zguide/examples/C++/mtserver.cpp",
+					"settings":
+					{
+						"buffer_size": 1382,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								90,
+								70
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 34.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 120.0
+	},
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"my_",
+				"netgame/testnet/my_complete.cpp"
+			],
+			[
+				"testcli",
+				"netgame/testnet/testclient.cpp"
+			],
+			[
+				"ioses",
+				"netgame/unite/IoSession3.cpp"
+			],
+			[
+				"iosess",
+				"netgame/unite/IOSession2.cpp"
+			],
+			[
+				"ios",
+				"netgame/unite/IoSession3.cpp"
+			],
+			[
+				"function",
+				"boost_1_57_0/boost/function/function0.hpp"
+			],
+			[
+				"function.",
+				"boost_1_57_0/boost/function.hpp"
+			],
+			[
+				"gssession",
+				"netgame/gameserver/net/GsSession.cpp"
+			],
+			[
+				"ztlg",
+				"netgame/loginserver/ZtServerLogin.cpp"
+			],
+			[
+				"timests",
+				"netgame/shared/TimeStats2.cpp"
+			],
+			[
+				"timest",
+				"netgame/shared/TimeStats.cpp"
+			],
+			[
+				"ss_confi",
+				"release/specific_config/sconfig.json"
+			],
+			[
+				"ss_con",
+				"release/ss_config.lua"
+			],
+			[
+				"server_confg",
+				"gamedata/server_config.lua"
+			],
+			[
+				"globalde",
+				"release/LuaScript/globaldefine.lua"
+			],
+			[
+				"sconfig",
+				"release/specific_config/sconfig.json"
+			],
+			[
+				"server_conf",
+				"release/server_config.lua"
+			],
+			[
+				"server",
+				"ServerConfig.h"
+			],
+			[
+				"servercon",
+				"gamedata/server_config.lua"
+			],
+			[
+				"ztbase",
+				"shared/ZtBaseJob.h"
+			],
+			[
+				"ztservercon",
+				"shared/ZtServerConfig.h"
+			],
+			[
+				"io",
+				"unite/IoSession3.h"
+			],
+			[
+				"iose",
+				"unite/IOSession2.h"
+			],
+			[
+				"que",
+				"gameserver/data/global/Queue.cpp"
+			],
+			[
+				"z",
+				"shared/ZLogger.cpp"
+			],
+			[
+				"zlog",
+				"shared/ZLogger.h"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 232.0,
+	"status_bar_visible": true
+}
