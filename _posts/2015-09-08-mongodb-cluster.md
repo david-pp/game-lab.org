@@ -1,12 +1,12 @@
 ---
 layout: post
-title: 高可用的Mongodb集群
+title: 高可用的MongoDB集群
 category : 架构
 tags : []
 date: 2015/09/08  21:46  +0800
 --- 
 
-刚接触Mongodb，就要用到它的集群，只能硬着头皮短时间去看文档和尝试自行搭建。迁移历史数据更是让人恼火，近100G的数据文件，导入、清理垃圾数据执行的速度蜗牛一样的慢。趁着这个时间，把这几天关于Mongod集群相关的内容整理一下。大概介绍一下Mongodb集群的几种方式：Master-Slave、Relica Set、Sharding，并做简单的演示。
+刚接触MongoDB，就要用到它的集群，只能硬着头皮短时间去看文档和尝试自行搭建。迁移历史数据更是让人恼火，近100G的数据文件，导入、清理垃圾数据执行的速度蜗牛一样的慢。趁着这个时间，把这几天关于Mongod集群相关的内容整理一下。大概介绍一下MongoDB集群的几种方式：Master-Slave、Relica Set、Sharding，并做简单的演示。
 
 
 使用集群的目的就是提高可用性。高可用性H.A.（High Availability）指的是通过尽量缩短因日常维护操作（计划）和突发的系统崩溃（非计划）所导致的停机时间，以提高系统和应用的可用性。它与被认为是不间断操作的容错技术有所不同。HA系统是目前企业防止核心计算机系统因故障停机的最有效手段。
@@ -210,12 +210,116 @@ rs.conf()
 
 ### 数据分片架构（Sharding）
 
-### 高可用的Mongodb集群
+当数据量比较大的时候，我们需要把数据分片运行在不同的机器中，以降低CPU、内存和IO的压力，Sharding就是这样的技术。数据库主要由两种方式做Sharding：纵向，横向，纵向的方式就是添加更多的CPU，内存，磁盘空间等。横向就是上面说的方式，如图所示：
+
+![Sharding](/assets/img/mongodb-sharded-collection.png)
+
+##### MongoDB的Sharding架构：
+
+![Sharding](/assets/img/mongodb-sharded-cluster-production-architecture.png)
+
+##### MongoDB分片架构中的角色：
+
+- 数据分片（Shards）
+
+  保存数据，保证数据的高可用性和一致性。可以是一个单独的`mongod`实例，也可以是一个副本集。在生产环境下Shard是一个Replica Set，以防止该数据片的单点故障。所有Shard中有一个PrimaryShard，里面包含未进行划分的数据集合：
+
+  ![Sharding](/assets/img/mongodb-sharded-cluster-primary-shard.png)
+
+- 查询路由（Query Routers）
+
+  `mongos`的实例，客户端直接连接`mongos`，由`mongos`把读写请求路由到指定的Shard上去。一个Sharding集群，可以有一个`mongos`，也可以有多`mongos`以减轻客户端请求的压力。
+
+
+- 配置服务器（Config servers）
+
+  保存集群的元数据（metadata），包含各个Shard的路由规则。
+
+##### 搭建一个有2个shard的集群
+
+1> 启动两个数据分片节点。在此仅演示单个`mongod`的方式，Replica Set类似。
+
+``` bash
+mongod --port 2001 --shardsvr --dbpath shard1/
+mongod --port 2002 --shardsvr --dbpath shard2/
+```
+
+2> 启动配置服务器
+
+``` bash
+mongod --port 3001 --dbpath cfg1/
+mongod --port 3002 --dbpath cfg2/
+mongod --port 3003 --dbpath cfg3/
+
+```
+
+3> 启动查询路由`mongos`服务器
+
+``` bash
+mongos --port 5000 --configdb 127.0.0.1:3001,127.0.0.1:3002,127.0.0.1:3003
+```
+
+4> 连接mongos，为集群添加数据分片节点。
+
+``` bash
+mongo --port 5000 amdmin
+
+sh.addShard("127.0.0.1:2001")
+sh.addShard("127.0.0.1:2002")
+```
+
+如果Shard是Replica Set，添加Shard的命令：
+
+``` bash
+sh.addShard("rsname/host1:port,host2:port,...")
+
+rsname - 副本集的名字
+```
+
+5> 可以连接`mongos`进行数据操作了。
+
+``` bash
+mongo --port 5000 test
+
+mongoimport.exe --port 5000 -d test dataset.json
+> 25359
+````
 
 ### 数据的备份和恢复
 
+MongodDB的备份有多种方式，这里只简单介绍一下`mongodump`和`mongorestore`的用法。
+
+1> 备份和恢复所有db
+
+``` bash
+mongodump -h IP --port PORT -o BACKUPPATH
+
+mongorestore -h IP --port PORT BACKUPPATH
+```
+
+2> 备份和恢复指定db
+
+``` bash
+mongodump -h IP --port PORT -d DBNAME -o BACKUPPATH
+
+mongorestore -h IP --port PORT  -d DBNAME BACKUPPATH
+mongorestore -h IP --port PORT --drop -d DBNAME BACKUPPATH
+```
+
+3> 备份和恢复指定collection
+
+``` bash
+mongodump -h IP --port PORT -d DBNAME -c COLLECTION -o xxx.bson
+
+mongorestore -h IP --port PORT  -d DBNAME -c COLLECTION xxx.bson
+mongorestore -h IP --port PORT --drop -d DBNAME -c COLLECTION xxx.bson
+```
+
 ### 小结
+
+MongoDB的集群能力还是很强的，搭建还算是简单。最关键的是要明白上面提到的3种架构的原理，才能用的得心应手。当然不限于MongoDB，或许其他数据库也多多少少支持类似的架构。
 
 ### 参考资料
 
-http://baike.baidu.com/view/2850255.htm
+- 百度百科： http://baike.baidu.com/view/2850255.htm
+- MongodDB官网文档：http://docs.mongodb.org/
