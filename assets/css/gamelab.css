@@ -33,9 +33,11 @@
 	list-style-type : none;
 }
 
+/* 固定导航栏 
 body { 
-	padding-top: 70px;  /* 固定导航栏 */
+	padding-top: 70px;  
 }
+*/
 
 p { 
 	margin-bottom: 24px; /* 段间距 */
