@@ -5,7 +5,8 @@ permalink: /posts/:title
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "mathjax"]
 highlighter: pygments
 #markdown: rdiscount
-markdown: redcarpet
+#markdown: redcarpet
+markdown: kramdown
 redcarpet:
   extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
 #paginate: 5 # the number of post per page
@@ -13,6 +14,7 @@ redcarpet:
 safe: true
 
 excerpt_separator: <!--more-->
+encoding: utf-8
 
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
