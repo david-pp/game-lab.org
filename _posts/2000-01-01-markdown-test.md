@@ -68,15 +68,6 @@ end
 
 ### 公式
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-                  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-                          });
-</script>
-<script type="text/javascript"
-  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-
 比如行内公式：
 
 $$E=mc^2$$ is a inline formula
@@ -101,3 +92,12 @@ $$
 
 [^1]: <http://kramdown.gettalong.org/syntax.html#tables>
 [^toc]: <http://kramdown.gettalong.org/documentation.html>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+                  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+                          });
+</script>
+<script type="text/javascript"
+  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
