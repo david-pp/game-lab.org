@@ -4,6 +4,7 @@ title: Markdown渲染器测试
 category : 
 tags : []
 published : true
+mathjax : true
 date: 2000/01/01  00:00  +0800
 ---
 
@@ -92,12 +93,3 @@ $$
 
 [^1]: <http://kramdown.gettalong.org/syntax.html#tables>
 [^toc]: <http://kramdown.gettalong.org/documentation.html>
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-                  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-                          });
-</script>
-<script type="text/javascript"
-  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
