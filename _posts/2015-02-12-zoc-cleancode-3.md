@@ -38,7 +38,7 @@ date: 2015/02/12  21:05  +0800
 * 参数列表
 * 避免输出和输入混用，无法避免则输出在左，输入在右
 
-``` c++
+``` c
 bool isBossNpc();
 void summonNpc(int id);
 void summonNpc(int id, int type);
@@ -83,7 +83,7 @@ bool needWeapon(DWORD skillid, BYTE& failtype); // Bad!!!
 * 抽离try-cacth
 * 错误处理也是一件事情，也应该封装为函数
 
-``` c++
+``` c
 bool RedisClient::connect(const std::string& host, uint16_t port)
 {
 	this->host = host;
@@ -117,7 +117,7 @@ bool RedisClient::connect(const std::string& host, uint16_t port)
 
 **BAD:**
 
-``` c++
+``` c
 bool saveBinary(type, data) {
    switch (type) {
      case TYPE_OBJECT:
@@ -141,7 +141,7 @@ bool needSaveBinary(type) {
 }
 ```
 
-``` c++
+``` c
 
 class BinaryMember
 {

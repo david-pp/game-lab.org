@@ -7,7 +7,7 @@ tags : [大学时代]
 excerpt: "帮同学做的课程设计：成绩管理系统，同时学习一下C++，编程实践一下。" 
 ---
 
-{% highlight c++ %}
+{% highlight c %}
 
 //list.h
 #pragma once

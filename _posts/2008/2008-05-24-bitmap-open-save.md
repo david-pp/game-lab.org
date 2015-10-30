@@ -8,7 +8,7 @@ date: 2008-05-24 15:12:00 +0800
 
 下面是两个函数， SaveBmp函数用于设备相关位图(DIB)保存为bmp格式的文件。DrawBitmapFile则用于将bmp格式的文件打开并显示在指定的设备环境上。
  
-{% highlight c++ %}
+{% highlight c %}
 
 BOOL SaveBmp(HBITMAP hBitmap, const char *FileName)
 {
@@ -112,7 +112,7 @@ BOOL SaveBmp(HBITMAP hBitmap, const char *FileName)
 
 {% endhighlight %}
 
-{% highlight c++ %}
+{% highlight c %}
   
 BOOL DrawBitmapFile(HDC hdc, int left, int top, char *szFilename)
 {

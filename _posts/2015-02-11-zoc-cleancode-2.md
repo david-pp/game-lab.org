@@ -23,7 +23,7 @@ date: 2015/02/11  20:48  +0800
 
 **BAD:**
 
-``` c++
+``` c
 
 int t = currentTime.elapse(e); // 消逝的时间,以毫秒计
 ...
@@ -36,7 +36,7 @@ if (t > timeout_value)
 
 **GOOD:**
 
-``` c++
+``` c
 int elapsed_ms = currentTime.elapse(e);
 ...
 if (elapsed_ms > timeout_value)
@@ -54,7 +54,7 @@ if (elapsed_ms > timeout_value)
 
 **BAD:**
 
-``` c++
+``` c
 std::vector<int> account_list; // _list就是一个误导, accounts会更好
 
 bool sendToZoneServer(); // 和下面的函数差别很小
@@ -69,7 +69,7 @@ bool sendToZoneServers(); // sendToAllZoneServers会好点
 
 **BAD:**
 
-``` c++
+``` c
 void copy(char a1[], char a2[]) {
   for (size_t i = 0; a1[i] != '\0'; i++)
      a2[i] = a1[i];
@@ -78,7 +78,7 @@ void copy(char a1[], char a2[]) {
 
 **GOOD:**
 
-``` c++
+``` c
 void copy(char source[], char dest[]) {
   for (size_t i = 0; source[i] != '\0'; i++)
      dest[i] = source[i];
@@ -96,7 +96,7 @@ void copy(char source[], char dest[]) {
 
 **BAD:**
 
-``` c++
+``` c
 class XLQY;
 class FCNV;
 class LTQManager;
@@ -109,7 +109,7 @@ class LTQManager;
 
 **BAD:**
 
-``` c++
+``` c
 if (obj->base->id == 4661) // 4661是啥玩意?
 {
    usetype = Cmd::XXXXXXX;
@@ -121,7 +121,7 @@ XXXX:iterator it; // 变量作用的范围比较大的时候,也不见得是个�
 
 **GOOD:**
 
-``` c++ 
+``` c 
 #define OJBECT_FEEDBACK_CARD 4661
 
 if (OJBECT_FEEDBACK_CARD == obj->base->id)
@@ -170,7 +170,7 @@ PS.说到这一点，可能有些同学有不同意见了，“我这样写是�
 
 **BAD:**
 
-``` c++
+``` c
 // 看着整齐?使用方便?
 DWORD love_ensure_type_;  //当前的爱情保险类型
 DWORD love_ensure_ret_; //购买爱情保险回应标示

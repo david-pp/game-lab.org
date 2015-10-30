@@ -10,7 +10,7 @@ tags : [大学时代]
 
 反正这两天刚好手有点痒,于是就有了:
 
-{% highlight c++ linenos %}
+{% highlight c linenos %}
 #ifndef  HANIO_H_
 #define HANIO_H
 class  Stack

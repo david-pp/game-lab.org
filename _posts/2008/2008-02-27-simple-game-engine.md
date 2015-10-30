@@ -26,7 +26,7 @@ tags : [大学时代, 游戏引擎]
 
 **游戏引擎的类**：
 
-{% highlight c++ linenos %}
+{% highlight c linenos %}
 
 #ifndef _GAMEENGINE_H
 #define _GAMEENGINE_H
@@ -87,7 +87,7 @@ LRESULT CALLBACK WndProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam);
 
 **其实现文件如下：**
 
-{% highlight c++ linenos %}
+{% highlight c linenos %}
 #include "GameEngine.h"
 
 //静态成员初始化
@@ -246,7 +246,7 @@ int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPreInstance,PSTR szCommandLine
 
 xxx.h文件要先声明一个全局游戏引擎指针。
 
-{% highlight c++ linenos %}
+{% highlight c linenos %}
 
 #include "resource.h"
 #include "GameEngine.h"
@@ -257,7 +257,7 @@ GameEngine * g_pGame; //全局游戏引擎指针
 
 然后xxx.cpp文件包含该xxx.h文件，在实现相应的游戏事件：
 
-{% highlight c++ linenos %}
+{% highlight c linenos %}
 #include "Blizzard.h"
 
 BOOL GameInitialize(HINSTANCE hInstance)

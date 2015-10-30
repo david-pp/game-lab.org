@@ -22,7 +22,7 @@ date: 2015/03/15 06:37  +0800
 
 如：
 
-``` c++
+``` c
 struct Point {
    int x;
    int y;
@@ -38,7 +38,7 @@ struct Point {
 
 如：
 
-``` c++
+``` c
 class Point {
 
 public:
@@ -72,7 +72,7 @@ private:
 - Shape增加一个计算周长的函数?
 - Shape增加一种新类型?
 
-``` c++
+``` c
 struct Shape
 {
    int type;
@@ -96,7 +96,7 @@ double caclArea(Shape* shape)
 
 你会发现，Shape把所有细节了类型全部暴露给你，你需要添加一个计算周长的函数，只需要添加一个函数即可。如下：
 
-``` c++
+``` c
 double caclLength(Shape* shape)
 {
   switch (shape->type)
@@ -119,7 +119,7 @@ double caclLength(Shape* shape)
 - Shape增加一种新类型?
 
 
-``` c++
+``` c
 class Shape {
 public:
    virtual double caclArea();

@@ -19,7 +19,7 @@ tags : [大学时代, Windows, dll]
  
 ### 动态链接库的入口点函数
  
-{% highlight c++ %}
+{% highlight c %}
 BOOL APIENTRY DllMain( HANDLE hModule,
                        DWORD ul_reason_for_call,
                        LPVOID lpReserved
@@ -67,7 +67,7 @@ DLL能够定义两种函数，导出函数和内部函数。导出函数可以�
 
 所谓装载期间链接，就是应用程序启动时由加载器（加载应用程序的组件）载入dll。载入器如何知道要载入哪些DLL呢？这些信息记录在可执行文件（PE文件）的idata节中。使用这种方法不用自己写代码显式的加载DLL。在程序只需：
 
-{% highlight c++ %}
+{% highlight c %}
 #include “ xxx.h”
 #pragma comment(lib,”xxx”)
 {% endhighlight %}
@@ -111,7 +111,7 @@ LoadLibrary函数的作用是加载指定目录下的DLL库到进程的虚拟地
 
 - **生成DLL**
 
-{% highlight c++ %}
+{% highlight c %}
 // DllTest.cpp : Defines the entry point for the DLL application.
 // 生成DLL文件，.def文件用于运行期间动态链接，若为静态则不需该文件
 
@@ -153,7 +153,7 @@ void DllTest2()
 {% endhighlight %}
 
 
-{% highlight c++ %}
+{% highlight c %}
 // DllTest.h
 // The following ifdef block is the standard way of creating macros which make exporting 
 // from a DLL simpler. All files within this DLL are compiled with the DLLTEST_EXPORTS
@@ -172,7 +172,7 @@ DLLTEST_API void DllTest1(LPCSTR pszContent);
 DLLTEST_API void DllTest2();
 {% endhighlight %}
 
-{% highlight c++ %}                                                            
+{% highlight c %}                                                            
 // DllTest.def
 EXPORTS
  DllTest1
@@ -182,7 +182,7 @@ EXPORTS
 
 - **使用Dll动态链接库** 
 
-{% highlight c++ %}
+{% highlight c %}
 // DllUse1.cpp : Defines the entry point for the console application.
 // 装载期间动态链接
 
@@ -197,7 +197,7 @@ int main(int argc, char* argv[])
 }
 {% endhighlight %}
 
-{% highlight c++ %}              
+{% highlight c %}              
 // DllUse2.cpp : Defines the entry point for the console application.
 // 运行期间动态链接
 

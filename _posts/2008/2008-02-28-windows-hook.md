@@ -62,7 +62,7 @@ dwThreadId参数指定要与钩子函数相关联的线程ID号。如果设为0�
 
 钩子安装后如果有相应的消息发生，Windows将调用SetWindowsHookEx函数指定的钩子函数lpfn。钩子函数的一般形式如下：
 
-{% highlight c++ %}
+{% highlight c %}
 LRESULT CALLBACK HookProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
     // 处理该消息的代码 …..
@@ -89,7 +89,7 @@ HookProc是应用程序的名称。nCode参数是Hook代码，钩子函数使用
 
 - **dll库的生成（只是部分重要的文件，没有全部贴出）**
 
-{% highlight c++ %}
+{% highlight c %}
 //ke 
 //The following ifdef block is the standard way of creating macros which make exporting 
 // from a DLL simpler. All files within this DLL are compiled with the KEYHOOKLIB_EXPORTS
@@ -104,7 +104,7 @@ HookProc是应用程序的名称。nCode参数是Hook代码，钩子函数使用
 #endif
 {% endhighlight %}
 
-{% highlight c++ %}
+{% highlight c %}
 
 // 自定义与主程序通信的消息
 #define HM_KEY WM_USER+1
@@ -188,7 +188,7 @@ LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 {% endhighlight %}
  
-{% highlight c++ %}
+{% highlight c %}
 // keyhooklib.def
 EXPORTS
     SetKeyHook
@@ -200,7 +200,7 @@ SECTIONS
 
 以对话框为基础建立工程（keyhookapp），改动的文件如下：
 
-{% highlight c++ %}
+{% highlight c %}
 // KeyHookAppDlg.cpp : implementation file
 //
 

@@ -30,7 +30,7 @@ date: 2008-06-06 02:50:00 +0800
 
 3． （可选）设置相应的属性。如：
    
-{% highlight c++ %}
+{% highlight c %}
 
  chart.SetGridColor(RGB(255,0,0));    // 设置网格颜色  
  chart.SetGriddx(10);                 // 设置网格x轴间隔  
@@ -46,7 +46,7 @@ date: 2008-06-06 02:50:00 +0800
 
 4． 添加曲线数据连接，曲线数据必须是vector<double>型的。如：
 
-{% highlight c++ %}
+{% highlight c %}
 
    std::vector<double> data[3];
    int length = 1000;
@@ -67,7 +67,7 @@ date: 2008-06-06 02:50:00 +0800
  
 5． 在WM_PAINT消息或其它地方绘制曲线。先设置显示在那个位置，然后绘制。
 
-{% highlight c++ %}
+{% highlight c %}
     
 case WM_PAINT:  
         hdc = BeginPaint(hWnd, &ps);  
@@ -87,7 +87,7 @@ case WM_PAINT:
  
 6． （可选）若要动态缩放、平移、左键点击显示坐标提示窗口、右键框选缩放，则只需在相应的消息处理处添加相关操作即可。注意：由于我是用该类绘制周期性的曲线的，所以平移和缩放只是x轴的；若要同时平移或缩放，在CChart::OnMouseWheel函数中将ScaleX改变为ScaleCenter即可以完成x，y轴同时缩放，在CChart::OnMouseMove函数中修改Move的第二参数为-(y - m_ptLeftButtonDown.y) * GetYPerPix()即可以完成x，y轴同时移动。
 
-{% highlight c++ %}
+{% highlight c %}
 
 if( m_ptLeftButtonDown.x != -1)
 {
@@ -102,7 +102,7 @@ if( m_ptLeftButtonDown.x != -1)
 {% endhighlight %}   
 
 示例代码：
-{% highlight c++ %}
+{% highlight c %}
 
 case WM_LBUTTONDOWN:  
           
@@ -129,7 +129,7 @@ case WM_LBUTTONDOWN:
         break;  
 {% endhighlight %}  
 
-{% highlight c++ %}
+{% highlight c %}
 
 #ifndef _DISPCHART_H  
 #define _DISPCHART_H  

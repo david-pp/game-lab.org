@@ -15,7 +15,7 @@ Windows是消息驱动的，它的消息循环部分主要是通过GetMessage函
 
 - **GetMessage**
  
-{% highlight c++ %} 
+{% highlight c %} 
 // 主消息循环:
 while (GetMessage(&msg, NULL, 0, 0)) 
 {
@@ -29,7 +29,7 @@ while (GetMessage(&msg, NULL, 0, 0))
  
 - **PeekMessage**
 
-{% highlight c++ %}
+{% highlight c %}
 // 主消息循环:
 ZeroMemory(&msg,sizeof(MSG));
 while (msg.message != WM_QUIT) 
