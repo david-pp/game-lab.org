@@ -44,6 +44,12 @@ p {
 	line-height: 1.9;    /* 行间距 */
 }
 
+/*
+h1 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}*/
+
 #blog-archives article {
     padding-left: 4.5em;
     padding-bottom: .7em;
